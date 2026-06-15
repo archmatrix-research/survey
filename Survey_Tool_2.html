@@ -1,0 +1,463 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width,initial-scale=1.0"/>
+<title>Smart Architecture Education Survey</title>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{--bg:#fff;--bg2:#f6f6f4;--bg3:#efefec;--bd:rgba(0,0,0,.12);--bd2:rgba(0,0,0,.22);--tx:#1a1a18;--tx2:#5a5a56;--tx3:#9a9a94;--blue:#185FA5;--bl-bg:#E6F1FB;--bl-tx:#0C447C;--green:#3B6D11;--gn-bg:#EAF3DE;--gn-tx:#27500A;--amber:#854F0B;--am-bg:#FAEEDA;--am-tx:#633806;--red:#A32D2D;--rd-bg:#FCEBEB;--rd-tx:#791F1F;--purple:#534AB7;--pu-bg:#EEEDFE;--pu-tx:#3C3489;--teal:#0F6E56;--tl-bg:#E1F5EE;--tl-tx:#085041;--r:10px;--rs:6px}
+@media(prefers-color-scheme:dark){:root{--bg:#1e1e1c;--bg2:#2a2a27;--bg3:#333330;--bd:rgba(255,255,255,.1);--bd2:rgba(255,255,255,.2);--tx:#f0f0ec;--tx2:#a8a8a2;--tx3:#6a6a64;--blue:#85B7EB;--bl-bg:#042C53;--bl-tx:#B5D4F4;--green:#97C459;--gn-bg:#173404;--gn-tx:#C0DD97;--amber:#EF9F27;--am-bg:#412402;--am-tx:#FAC775;--red:#F09595;--rd-bg:#501313;--rd-tx:#F7C1C1;--purple:#AFA9EC;--pu-bg:#26215C;--pu-tx:#CECBF6;--teal:#5DCAA5;--tl-bg:#04342C;--tl-tx:#9FE1CB}}
+body{font-family:-apple-system,BlinkMacSystemFont,'Segoe UI',sans-serif;background:var(--bg2);color:var(--tx);min-height:100vh;padding:2rem 1rem}
+.wrap{max-width:700px;margin:0 auto}
+.lang-bar{display:flex;gap:8px;margin-bottom:1.5rem;background:var(--bg3);padding:4px;border-radius:var(--r);width:fit-content}
+.lb{padding:7px 18px;border:none;background:none;border-radius:var(--rs);font-size:13px;font-weight:500;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s}
+.lb.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.tag{display:inline-block;font-size:11px;font-weight:600;padding:3px 10px;border-radius:20px;margin-bottom:10px}
+.tp{background:var(--pu-bg);color:var(--pu-tx)}.tt{background:var(--tl-bg);color:var(--tl-tx)}
+h1{font-size:22px;font-weight:600;color:var(--tx);margin-bottom:6px}
+.sub{font-size:14px;color:var(--tx2);line-height:1.65;margin-bottom:1.25rem}
+.consent{background:var(--bl-bg);border:1px solid rgba(24,95,165,.2);border-radius:var(--r);padding:1rem 1.25rem;margin-bottom:1.5rem;font-size:13px;color:var(--bl-tx);line-height:1.65}
+.card{background:var(--bg);border:1px solid var(--bd);border-radius:var(--r);padding:1.25rem;margin-bottom:1rem}
+.ct{font-size:11px;font-weight:600;color:var(--tx3);text-transform:uppercase;letter-spacing:.05em;margin-bottom:1rem}
+.intro{font-size:13px;color:var(--tx2);line-height:1.6;margin-bottom:1rem;padding:.75rem 1rem;background:var(--bg2);border-radius:var(--rs);border-left:3px solid var(--bd2)}
+label{font-size:13px;color:var(--tx2);display:block;margin-bottom:4px}
+select,input,textarea{width:100%;padding:9px 12px;border:1px solid var(--bd2);border-radius:var(--rs);font-size:14px;background:var(--bg);color:var(--tx);font-family:inherit;outline:none;appearance:none}
+select:focus,input:focus,textarea:focus{border-color:var(--blue);box-shadow:0 0 0 3px rgba(24,95,165,.12)}
+textarea{resize:vertical;line-height:1.6}
+.fr{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:.75rem}
+.qb{margin-bottom:1.5rem}.qb:last-child{margin-bottom:0}
+.qn{font-size:11px;font-weight:600;color:var(--tx3);margin-bottom:4px}
+.qt{font-size:14px;font-weight:500;color:var(--tx);line-height:1.6;margin-bottom:4px}
+.qc{display:inline-block;font-size:10px;font-weight:600;padding:2px 8px;border-radius:10px;margin-bottom:10px}
+.lr{display:grid;grid-template-columns:repeat(5,1fr);gap:6px}
+.lb2{padding:10px 4px;border:1px solid var(--bd2);border-radius:var(--rs);background:var(--bg2);cursor:pointer;font-size:14px;font-weight:500;color:var(--tx2);font-family:inherit;text-align:center;transition:all .15s}
+.lb2:hover{border-color:var(--blue);background:var(--bl-bg);color:var(--bl-tx)}
+.lb2.on{background:var(--blue);color:#fff;border-color:var(--blue);font-weight:600}
+.sl{display:flex;justify-content:space-between;margin-top:5px}
+.slt{font-size:10px;color:var(--tx3)}
+.dv{height:1px;background:var(--bd);margin:1.25rem 0}
+.btn{padding:11px 22px;border-radius:var(--rs);border:1px solid var(--bd2);background:var(--bg);color:var(--tx);font-size:14px;cursor:pointer;font-family:inherit;font-weight:500;transition:all .15s}
+.btn:hover{background:var(--bg2)}.bp{background:var(--blue);color:#fff;border-color:var(--blue)}.bp:hover{background:var(--bl-tx)}.bb{width:100%}
+.pg{height:5px;background:var(--bg3);border-radius:3px;margin-bottom:1.5rem}
+.pgf{height:100%;background:var(--blue);border-radius:3px;transition:width .35s}
+.ok{display:none;text-align:center;padding:3rem 1rem}
+.oki{width:64px;height:64px;background:var(--gn-bg);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 1.25rem;font-size:28px}
+.ok h2{font-size:20px;font-weight:600;margin-bottom:.5rem}
+.ok p{font-size:14px;color:var(--tx2);line-height:1.65;max-width:440px;margin:0 auto .75rem}
+.tabs{display:flex;gap:4px;margin-bottom:1.5rem;background:var(--bg3);padding:4px;border-radius:var(--r)}
+.tab{flex:1;padding:8px;border:none;background:none;border-radius:var(--rs);font-size:12px;font-weight:500;cursor:pointer;color:var(--tx2);font-family:inherit;transition:all .15s;text-align:center}
+.tab.on{background:var(--bg);color:var(--tx);box-shadow:0 1px 3px rgba(0,0,0,.1)}
+.pnl{display:none}.pnl.on{display:block}
+.mg{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:1rem}
+.met{background:var(--bg2);border-radius:var(--rs);padding:.75rem 1rem}
+.ml{font-size:11px;color:var(--tx3);margin-bottom:3px}.mv{font-size:22px;font-weight:600;color:var(--tx)}
+.br{margin-bottom:.875rem}.bh{display:flex;justify-content:space-between;margin-bottom:4px}
+.bc{font-size:12px;color:var(--tx);font-weight:500}.ba{font-size:12px;font-weight:600;color:var(--tx)}
+.bw{height:8px;background:var(--bg3);border-radius:4px;overflow:hidden}
+.bf{height:100%;background:var(--blue);border-radius:4px;transition:width .4s}
+.ri{border:1px solid var(--bd);border-radius:var(--rs);padding:.875rem 1rem;margin-bottom:.5rem;font-size:13px}
+.rm{color:var(--tx2);font-size:11px;margin-bottom:.5rem}.rq{color:var(--tx);line-height:1.6;font-style:italic}
+.rp{display:flex;flex-wrap:wrap;gap:5px;margin-top:.5rem}
+.pl{font-size:10px;padding:2px 7px;border-radius:10px;background:var(--bg2);color:var(--tx2);border:1px solid var(--bd)}
+.aib{background:var(--bg2);border-radius:var(--rs);padding:1rem;font-size:13px;line-height:1.75;color:var(--tx);min-height:60px;white-space:pre-wrap;word-break:break-word}
+.aib.e{color:var(--tx3);font-style:italic}
+.exp{font-family:monospace;font-size:11px;background:var(--bg2);padding:1rem;border-radius:var(--rs);white-space:pre-wrap;max-height:260px;overflow-y:auto;color:var(--tx2);border:1px solid var(--bd)}
+.rv{display:none}.rl{max-height:360px;overflow-y:auto}
+.req{color:var(--red)}.fx{display:flex;align-items:center;gap:8px}.je{justify-content:flex-end}.mt{margin-top:.75rem}
+.al{text-align:center;margin-top:1.25rem}.al button{background:none;border:none;font-size:12px;color:var(--tx3);cursor:pointer;text-decoration:underline;font-family:inherit}
+@media(max-width:500px){.fr{grid-template-columns:1fr}.mg{grid-template-columns:1fr 1fr}.lr{gap:4px}.lb2{padding:8px 3px;font-size:13px}}
+</style>
+</head>
+<body>
+<div class="wrap">
+<div id="sv">
+  <div class="lang-bar">
+    <button class="lb on" onclick="setL('en',this)">&#127468;&#127463; English</button>
+    <button class="lb" onclick="setL('ro',this)">&#127479;&#127476; Rom&#226;n&#259;</button>
+    <button class="lb" onclick="setL('fr',this)">&#127467;&#127479; Fran&#231;ais</button>
+  </div>
+  <div class="tag tp" id="u0"></div>
+  <h1 id="u1"></h1>
+  <p class="sub" id="u2"></p>
+  <div class="consent" id="u3"></div>
+  <div class="pg"><div class="pgf" id="pf" style="width:0%"></div></div>
+  <div class="card">
+    <div class="ct" id="u4"></div>
+    <div class="fr">
+      <div><label id="u5"></label><select id="role" onchange="upd()"></select></div>
+      <div><label id="u6"></label><select id="region" onchange="upd()"></select></div>
+    </div>
+    <div class="fr">
+      <div><label id="u7"></label><select id="years"></select></div>
+      <div><label id="u8"></label><input type="text" id="inst"/></div>
+    </div>
+  </div>
+  <div class="card"><div class="ct" id="tB"></div><div class="intro" id="iB"></div><div id="sB"></div></div>
+  <div class="card"><div class="ct" id="tC"></div><div class="intro" id="iC"></div><div id="sC"></div></div>
+  <div class="card"><div class="ct" id="tD"></div><div class="intro" id="iD"></div><div id="sD"></div></div>
+  <div class="card"><div class="ct" id="tE"></div><div class="intro" id="iE"></div><div id="sE"></div></div>
+  <div class="card"><div class="ct" id="tF"></div><div class="intro" id="iF"></div><div id="sF"></div></div>
+  <div class="card">
+    <div class="ct" id="uG"></div>
+    <div class="qb"><div class="qt" id="oq1t"></div><textarea id="oq1" rows="3" style="margin-top:8px" oninput="upd()"></textarea></div>
+    <div class="dv"></div>
+    <div class="qb"><div class="qt" id="oq2t"></div><textarea id="oq2" rows="3" style="margin-top:8px"></textarea></div>
+    <div class="dv"></div>
+    <div class="qb"><div class="qt" id="oq3t"></div><textarea id="oq3" rows="3" style="margin-top:8px"></textarea></div>
+  </div>
+  <button class="btn bp bb" id="subBtn" onclick="doSub()" style="margin-bottom:.75rem"></button>
+  <p id="note" style="font-size:12px;text-align:center;min-height:16px;margin-bottom:.75rem;color:var(--am-tx)"></p>
+  <div class="al"><button onclick="showR()" id="uAdmin"></button></div>
+</div>
+
+<div class="ok" id="okS">
+  <div class="oki">&#10003;</div>
+  <h2 id="okT"></h2><p id="okM"></p>
+  <p style="font-size:13px;color:var(--tx3)">Stud.drd.arh. Aida Al Hosni &mdash; UAUIM 2025</p>
+  <button class="btn" onclick="reset()" style="margin-top:1rem" id="okB"></button>
+</div>
+
+<div class="rv" id="rv">
+  <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:.75rem">
+    <div><div class="tag tt">Researcher dashboard</div><h1 style="font-size:20px;font-weight:600;margin-top:4px">Survey results</h1></div>
+    <button class="btn" onclick="hideR()" style="font-size:13px">&#8592; Back</button>
+  </div>
+  <p id="ls" style="font-size:12px;margin-bottom:1rem;min-height:16px;color:var(--tx3)"></p>
+  <div class="tabs">
+    <button class="tab on" onclick="sw('ov',this)">Overview</button>
+    <button class="tab" onclick="sw('bs',this)">By section</button>
+    <button class="tab" onclick="sw('rs',this)">Responses</button>
+    <button class="tab" onclick="sw('ai',this)">AI synthesis</button>
+    <button class="tab" onclick="sw('ex',this)">Export</button>
+  </div>
+  <div id="ov" class="pnl on">
+    <div class="mg">
+      <div class="met"><div class="ml">Total responses</div><div class="mv" id="rN">0</div></div>
+      <div class="met"><div class="ml">Overall average</div><div class="mv" id="rA">&#8212;</div></div>
+      <div class="met"><div class="ml">Weakest area</div><div class="mv" id="rW" style="font-size:13px;line-height:1.3;padding-top:2px">&#8212;</div></div>
+    </div>
+    <div class="card"><div class="ct">All questions &mdash; average scores</div><div id="allB"></div></div>
+    <div class="card"><div class="ct">Respondent breakdown</div><div id="bkd" style="font-size:13px;color:var(--tx2);line-height:1.9"></div></div>
+  </div>
+  <div id="bs" class="pnl"><div class="card"><div class="ct">Scores by thesis section</div><div id="secB"></div></div></div>
+  <div id="rs" class="pnl">
+    <div class="card"><div class="ct">Individual responses (<span id="rC">0</span>)</div><div class="rl" id="rL"><p style="color:var(--tx3);font-size:13px;font-style:italic">No responses yet.</p></div></div>
+  </div>
+  <div id="ai" class="pnl">
+    <div class="card"><div class="ct">AI synthesis &mdash; quantitative findings</div><div class="aib e" id="aiS">Click Generate to receive a thesis-ready paragraph.</div><div class="fx je mt"><button class="btn bp" onclick="gSyn()" style="font-size:13px">Generate &#8594;</button></div></div>
+    <div class="card"><div class="ct">AI theme extraction &mdash; open responses</div><div class="aib e" id="aiT">Click Extract to identify recurring themes.</div><div class="fx je mt"><button class="btn" onclick="gThm()" style="font-size:13px">Extract themes &#8594;</button></div></div>
+    <div class="card"><div class="ct">AI commentary &mdash; curriculum gaps</div><div class="aib e" id="aiG">Click Analyse for commentary on the five curriculum problems.</div><div class="fx je mt"><button class="btn" onclick="gGap()" style="font-size:13px">Analyse gaps &#8594;</button></div></div>
+  </div>
+  <div id="ex" class="pnl">
+    <div class="card"><div class="ct">CSV export</div><div class="exp" id="expB">No data yet.</div>
+    <div class="fx je mt" style="gap:8px">
+      <button class="btn" onclick="cpC()" style="font-size:13px">Copy to clipboard</button>
+      <button class="btn" onclick="clrD()" style="font-size:13px;color:var(--red)">Clear all data</button>
+    </div></div>
+  </div>
+</div>
+</div>
+<script>
+var SU="https://script.google.com/macros/s/AKfycbyYJIGV9whZjP3A568zSG3rNEqRi3KCmNXS4TQQgw9aljQr9xYvdEs7fA3XyPROgmYp/exec";
+var L="en", ANS={}, RS=JSON.parse(localStorage.getItem("sav3")||"[]");
+
+// ── TRANSLATIONS (no curly quotes inside JS strings) ─────────────
+var T={
+en:{
+  u:["PhD Research Survey - Aida Al Hosni - UAUIM 2025",
+     "Smart Architecture Education: How prepared are we?",
+     "This survey supports doctoral research on adapting architectural education for smart city challenges. Your responses are <strong>anonymous</strong> and will form part of the quantitative analysis in the thesis <em>Building for the Future: Reimagining Architectural Education.</em>",
+     "<strong>Participation is voluntary and fully anonymous.</strong> No personal identifying information is collected. Responses are used solely for academic research. The survey takes approximately 6-8 minutes.",
+     "Section A - Your profile","Your role <span class='req'>*</span>","Country / region <span class='req'>*</span>","Years of experience","Your institution (optional)"],
+  sT:["Section B - Current preparedness for smart cities (RQ1)",
+      "Section C - Curriculum gaps and the governance crisis",
+      "Section D - Technology integration in architecture education (RQ3)",
+      "Section E - Architecture role in future cities (RQ2)",
+      "Section F - The proposed Smart Architecture Specialisation"],
+  sI:["These questions address whether architectural education currently equips graduates to meet the demands of smart urban environments.",
+      "These questions probe the five critical problems: the silo problem, the static-output problem, the tool-without-theory problem, the ethics gap, and the governance-agility gap.",
+      "These questions examine how AI, BIM, IoT, digital fabrication, and other technologies are integrated into architectural curricula.",
+      "These questions explore how architectural education reform could impact urban livability, equity, and environmental resilience.",
+      "These questions gauge receptiveness to the new postgraduate specialisation proposed in the thesis."],
+  g:"Section G - Open responses",
+  oq:["What is the single most important change you would make to architectural education to better prepare graduates for smart cities?",
+      "How do you imagine the architect role will change over the next 10-15 years in relation to smart city design?",
+      "Are there any barriers at your institution that prevent the adoption of smart city-oriented teaching? Please describe briefly."],
+  sub:"Submit my response",adm:"View collected results (researcher access)",
+  okT:"Thank you for your response!",
+  okM:"Your answer has been recorded anonymously and will contribute to the quantitative analysis of architectural education readiness for smart city design.",
+  okB:"Submit another response",sl:"Strongly disagree",sr:"Strongly agree",of:"of",
+  roles:["Architecture student (undergraduate)","Architecture student (postgraduate / PhD)","Architecture faculty / lecturer","Practising architect","Urban planner / smart city professional","Architecture school administrator","Other built environment professional"],
+  regions:["Romania","Morocco","Western Europe (other)","Eastern Europe (other)","North America","Asia-Pacific","Middle East / North Africa","Sub-Saharan Africa","Other"],
+  years:["0-2 years (student / early career)","3-5 years","6-10 years","11-20 years","20+ years"],
+  rD:"Select role...",rgD:"Select region...",yD:"Select...",
+  sL:{B:"Section B - Preparedness (RQ1)",C:"Section C - Curriculum gaps",D:"Section D - Technology (RQ3)",E:"Section E - Urban impact (RQ2)",F:"Section F - Specialisation"}
+},
+ro:{
+  u:["Sondaj de cercetare doctorala - Aida Al Hosni - UAUIM 2025",
+     "Educatia in Arhitectura Inteligenta: Cat de pregatiti suntem?",
+     "Acest sondaj sprijina cercetarea doctorala privind adaptarea educatiei arhitecturale la provocarile oraselor inteligente. Raspunsurile dvs. sunt <strong>anonime</strong> si vor face parte din analiza cantitativa a tezei <em>Construind pentru viitor: Reimaginarea educatiei arhitecturale.</em>",
+     "<strong>Participarea este voluntara si complet anonima.</strong> Nu se colecteaza informatii personale de identificare. Raspunsurile sunt utilizate exclusiv in scopuri academice. Sondajul dureaza aproximativ 6-8 minute.",
+     "Sectiunea A - Profilul dvs.","Rolul dvs. <span class='req'>*</span>","Tara / regiune <span class='req'>*</span>","Ani de experienta","Institutia dvs. (optional)"],
+  sT:["Sectiunea B - Pregatirea actuala pentru orase inteligente (IC1)",
+      "Sectiunea C - Lacune curriculare si criza de guvernanta",
+      "Sectiunea D - Integrarea tehnologiei in educatia arhitecturala (IC3)",
+      "Sectiunea E - Rolul arhitecturii in orasele viitorului (IC2)",
+      "Sectiunea F - Specializarea propusa in Arhitectura Inteligenta"],
+  sI:["Aceste intrebari evalueaza daca educatia arhitecturala ii pregateste pe absolventi pentru cerintele mediilor urbane inteligente.",
+      "Aceste intrebari vizeaza cele cinci probleme critice: problema silozurilor, iesirilor statice, instrumentului fara teorie, lacuna etica si lacuna de agilitate a guvernantei.",
+      "Aceste intrebari examineaza modul in care IA, BIM, IoT, fabricatia digitala si alte tehnologii sunt integrate in curricula arhitecturala.",
+      "Aceste intrebari exploreaza implicatiile reformei educatiei arhitecturale asupra calitatii vietii urbane, echitatii si rezilientei de mediu.",
+      "Aceste intrebari evalueaza receptivitatea fata de noua specializare postuniversitara propusa in teza."],
+  g:"Sectiunea G - Raspunsuri deschise",
+  oq:["Care este cea mai importanta schimbare pe care ati face-o in educatia arhitecturala pentru a pregati mai bine absolventii pentru orasele inteligente?",
+      "Cum imaginati ca se va schimba rolul arhitectului in urmatorii 10-15 ani in raport cu proiectarea oraselor inteligente?",
+      "Exista bariere la institutia dvs. care impiedica adoptarea predarii orientate spre orasele inteligente? Va rugam sa le descrieti pe scurt."],
+  sub:"Trimite raspunsul meu",adm:"Vizualizati rezultatele colectate (acces cercetator)",
+  okT:"Va multumim pentru raspuns!",
+  okM:"Raspunsul dvs. a fost inregistrat anonim si va contribui la analiza cantitativa a pregatirii educatiei arhitecturale.",
+  okB:"Trimite alt raspuns",sl:"Dezacord total",sr:"Acord total",of:"din",
+  roles:["Student la arhitectura (licenta)","Student la arhitectura (masterat / doctorat)","Cadru didactic / lector in arhitectura","Arhitect practicant","Urbanist / specialist in orase inteligente","Administrator al unei scoli de arhitectura","Alt profesionist in domeniul constructiilor"],
+  regions:["Romania","Maroc","Europa de Vest (altul)","Europa de Est (altul)","America de Nord","Asia-Pacific","Orientul Mijlociu / Africa de Nord","Africa Subsahariana","Altul"],
+  years:["0-2 ani (student / incepator)","3-5 ani","6-10 ani","11-20 ani","Peste 20 ani"],
+  rD:"Selectati rolul...",rgD:"Selectati regiunea...",yD:"Selectati...",
+  sL:{B:"Sect. B - Pregatire (IC1)",C:"Sect. C - Lacune curriculare",D:"Sect. D - Tehnologie (IC3)",E:"Sect. E - Impact urban (IC2)",F:"Sect. F - Specializare"}
+},
+fr:{
+  u:["Enquete de recherche doctorale - Aida Al Hosni - UAUIM 2025",
+     "L'architecture intelligente dans l'enseignement: Sommes-nous prets?",
+     "Cette enquete soutient une recherche doctorale sur l'adaptation de l'enseignement de l'architecture aux defis des villes intelligentes. Vos reponses sont <strong>anonymes</strong> et feront partie de l'analyse quantitative de la these <em>Construire pour l'avenir: Repenser l'enseignement de l'architecture.</em>",
+     "<strong>La participation est volontaire et entierement anonyme.</strong> Aucune information personnelle identifiable n'est collectee. Les reponses sont utilisees uniquement a des fins academiques. L'enquete prend environ 6-8 minutes.",
+     "Section A - Votre profil","Votre role <span class='req'>*</span>","Pays / region <span class='req'>*</span>","Annees d'experience","Votre etablissement (facultatif)"],
+  sT:["Section B - Preparation actuelle aux villes intelligentes (QR1)",
+      "Section C - Lacunes curriculaires et crise de gouvernance",
+      "Section D - Integration technologique dans l'enseignement de l'architecture (QR3)",
+      "Section E - Le role de l'architecture dans les villes du futur (QR2)",
+      "Section F - La specialisation proposee en Architecture Intelligente"],
+  sI:["Ces questions examinent si l'enseignement de l'architecture prepare actuellement les diplomes aux exigences des environnements urbains intelligents.",
+      "Ces questions portent sur les cinq problemes critiques: le probleme des silos, des sorties statiques, de l'outil sans theorie, le deficit ethique et le deficit d'agilite de gouvernance.",
+      "Ces questions examinent comment l'IA, le BIM, l'IoT, la fabrication numerique et d'autres technologies sont integres dans les cursus d'architecture.",
+      "Ces questions explorent les implications de la reforme de l'enseignement de l'architecture sur la qualite de vie urbaine, l'equite et la resilience environnementale.",
+      "Ces questions evaluent la receptivite a la nouvelle specialisation de troisieme cycle proposee dans la these."],
+  g:"Section G - Reponses ouvertes",
+  oq:["Quel est le changement le plus important que vous apporteriez a l'enseignement de l'architecture pour mieux preparer les diplomes aux villes intelligentes?",
+      "Comment imaginez-vous l'evolution du role de l'architecte au cours des 10-15 prochaines annees en lien avec la conception des villes intelligentes?",
+      "Existe-t-il des obstacles dans votre etablissement qui freinent l'adoption d'un enseignement oriente vers les villes intelligentes? Decrivez-les brievement."],
+  sub:"Soumettre ma reponse",adm:"Voir les resultats collectes (acces chercheur)",
+  okT:"Merci pour votre reponse!",
+  okM:"Votre reponse a ete enregistree de maniere anonyme et contribuera a l'analyse quantitative de la preparation de l'enseignement de l'architecture.",
+  okB:"Soumettre une autre reponse",sl:"Pas du tout d'accord",sr:"Tout a fait d'accord",of:"sur",
+  roles:["Etudiant en architecture (licence)","Etudiant en architecture (master / doctorat)","Enseignant / maitre de conferences en architecture","Architecte praticien","Urbaniste / professionnel des villes intelligentes","Administrateur d'ecole d'architecture","Autre professionnel du cadre bati"],
+  regions:["Roumanie","Maroc","Europe occidentale (autre)","Europe orientale (autre)","Amerique du Nord","Asie-Pacifique","Moyen-Orient / Afrique du Nord","Afrique subsaharienne","Autre"],
+  years:["0-2 ans (etudiant / debut de carriere)","3-5 ans","6-10 ans","11-20 ans","Plus de 20 ans"],
+  rD:"Selectionner un role...",rgD:"Selectionner une region...",yD:"Selectionner...",
+  sL:{B:"Section B - Preparation (QR1)",C:"Section C - Lacunes",D:"Section D - Technologie (QR3)",E:"Section E - Impact urbain (QR2)",F:"Section F - Specialisation"}
+}
+};
+
+// ── QUESTIONS ────────────────────────────────────────────────────
+var QS=[
+ {id:"b1",s:"B",c:"purple",en:"My architecture education adequately prepares graduates to design buildings for smart city environments.",ro:"Educatia mea in arhitectura ii pregateste corespunzator pe absolventi sa proiecteze cladiri pentru mediile urbane inteligente.",fr:"Ma formation en architecture prepare adequatement les diplomes a concevoir des batiments pour les environnements de villes intelligentes.",cat:{en:"Smart city readiness",ro:"Pregatire pentru orase inteligente",fr:"Preparation aux villes intelligentes"}},
+ {id:"b2",s:"B",c:"purple",en:"I feel confident using data-driven tools (sensors, IoT systems, digital twins) in my design practice or teaching.",ro:"Ma simt incredere in utilizarea instrumentelor bazate pe date (senzori, IoT, gemeni digitali) in practica mea.",fr:"Je me sens a l'aise avec les outils bases sur les donnees (capteurs, IoT, jumeaux numeriques) dans ma pratique.",cat:{en:"Data literacy",ro:"Competente digitale",fr:"Litteratie des donnees"}},
+ {id:"b3",s:"B",c:"purple",en:"My institution teaches students to think of buildings as active participants in urban data networks, not just physical structures.",ro:"Institutia mea ii invata pe studenti sa gandeasca cladirile ca participanti activi in retelele de date urbane.",fr:"Mon etablissement apprend aux etudiants a concevoir les batiments comme des participants actifs aux reseaux de donnees urbaines.",cat:{en:"Buildings as informational systems",ro:"Cladiri ca sisteme informationale",fr:"Batiments comme systemes informationnels"}},
+ {id:"b4",s:"B",c:"purple",en:"Graduates from my institution are competitive for roles in technology-forward and smart city architectural practice.",ro:"Absolventii institutiei mele sunt competitivi pentru roluri in practica arhitecturala orientata spre tehnologie.",fr:"Les diplomes de mon etablissement sont competitifs pour des postes dans la pratique architecturale tournee vers la technologie.",cat:{en:"Graduate outcomes",ro:"Rezultatele absolventilor",fr:"Debouches des diplomes"}},
+ {id:"b5",s:"B",c:"purple",en:"The skills I acquired (or teach) in my architecture program have remained relevant beyond 5 years of professional practice.",ro:"Competentele dobandite in programul meu de arhitectura au ramas relevante dupa 5 ani de practica profesionala.",fr:"Les competences acquises dans mon programme d'architecture sont restees pertinentes au-dela de 5 ans de pratique.",cat:{en:"Skill longevity",ro:"Longevitatea competentelor",fr:"Perennite des competences"}},
+ {id:"c1",s:"C",c:"amber",en:"In my program, structural engineering, environmental systems, and computational design are taught as interconnected disciplines - not isolated silos.",ro:"In programul meu, ingineria structurala, sistemele de mediu si designul computational sunt predate ca discipline interconectate.",fr:"Dans mon programme, l'ingenierie structurale, les systemes environnementaux et la conception computationnelle sont enseignes comme des disciplines interconnectees.",cat:{en:"Silo problem",ro:"Problema silozurilor",fr:"Probleme des silos"}},
+ {id:"c2",s:"C",c:"amber",en:"Architecture studios in my institution produce a range of output types - simulations, data models, performance reports - not only static drawings.",ro:"Studiourile din institutia mea produc o varietate de rezultate - simulari, modele de date, rapoarte de performanta - nu doar desene statice.",fr:"Les ateliers de mon etablissement produisent differents types de livrables - simulations, modeles de donnees, rapports - pas seulement des dessins statiques.",cat:{en:"Static-output problem",ro:"Problema iesirilor statice",fr:"Probleme des sorties statiques"}},
+ {id:"c3",s:"C",c:"amber",en:"When new software tools are introduced in my program, students are also taught the theoretical principles and critical limitations behind them.",ro:"Cand se introduc noi instrumente software, studentilor li se predau si principiile teoretice si limitarile critice din spatele acestora.",fr:"Lorsque de nouveaux outils logiciels sont introduits, les etudiants apprennent egalement les principes theoriques et les limites critiques.",cat:{en:"Tool-without-theory problem",ro:"Instrument fara teorie",fr:"Outil sans theorie"}},
+ {id:"c4",s:"C",c:"amber",en:"The ethical implications of smart building technologies - data privacy, algorithmic bias, surveillance - are explicitly and regularly discussed in courses.",ro:"Implicatiile etice ale tehnologiilor pentru cladiri inteligente - confidentialitatea datelor, prejudecatile algoritmice, supravegherea - sunt discutate explicit.",fr:"Les implications ethiques des technologies des batiments intelligents - confidentialite, biais algorithmiques, surveillance - sont explicitement abordees.",cat:{en:"Ethics gap",ro:"Lacuna etica",fr:"Deficit ethique"}},
+ {id:"c5",s:"C",c:"amber",en:"My institution's curriculum is formally updated at least every two years to reflect new technologies and industry practices.",ro:"Curriculum-ul institutiei mele este actualizat formal cel putin o data la doi ani pentru a reflecta noile tehnologii.",fr:"Le programme de mon etablissement est officiellement mis a jour au moins tous les deux ans pour reflechir les nouvelles technologies.",cat:{en:"Governance-agility gap",ro:"Lacuna de agilitate a guvernantei",fr:"Deficit d'agilite de gouvernance"}},
+ {id:"c6",s:"C",c:"amber",en:"There is a significant gap between the technologies used in professional practice and those taught in architecture schools today.",ro:"Exista un decalaj semnificativ intre tehnologiile utilizate in practica profesionala si cele predate in scolile de arhitectura.",fr:"Il existe un ecart significatif entre les technologies utilisees en pratique et celles enseignees dans les ecoles d'architecture.",cat:{en:"Practice-education gap",ro:"Decalaj practica-educatie",fr:"Ecart pratique-enseignement"}},
+ {id:"c7",s:"C",c:"amber",en:"My program develops meta-skills - computational thinking, systems analysis, adaptive learning - rather than just training students in specific software.",ro:"Programul meu dezvolta meta-competente - gandire computationala, analiza de sisteme, invatare adaptiva.",fr:"Mon programme developpe des meta-competences - pensee computationnelle, analyse de systemes, apprentissage adaptatif.",cat:{en:"Meta-skill development",ro:"Dezvoltarea meta-competentelor",fr:"Developpement des meta-competences"}},
+ {id:"d1",s:"D",c:"blue",en:"BIM (Building Information Modelling) is thoroughly integrated across design studios and technical courses in my program.",ro:"BIM este integrat temeinic in studiourile de proiectare si cursurile tehnice din programul meu.",fr:"Le BIM est pleinement integre dans les ateliers de conception et les cours techniques de mon programme.",cat:{en:"BIM integration",ro:"Integrarea BIM",fr:"Integration du BIM"}},
+ {id:"d2",s:"D",c:"blue",en:"Parametric and generative design tools are used for core studio projects, not only elective or advanced courses.",ro:"Instrumentele de design parametric si generativ sunt utilizate pentru proiectele principale de studio.",fr:"Les outils de conception parametrique et generative sont utilises pour les projets principaux d'atelier.",cat:{en:"Computational / parametric design",ro:"Design parametric / computational",fr:"Conception parametrique / computationnelle"}},
+ {id:"d3",s:"D",c:"blue",en:"Artificial intelligence and machine learning are covered as substantive topics in the core curriculum, not merely mentioned in passing.",ro:"Inteligenta artificiala si invatarea automata sunt tratate ca subiecte substantiale in curriculum-ul de baza.",fr:"L'intelligence artificielle et l'apprentissage automatique sont abordes comme des sujets substantiels dans le programme principal.",cat:{en:"AI & machine learning",ro:"IA si invatare automata",fr:"IA et apprentissage automatique"}},
+ {id:"d4",s:"D",c:"blue",en:"Students in my program regularly work with digital fabrication tools - CNC milling, 3D printing, robotic assembly - as part of studio projects.",ro:"Studentii din programul meu lucreaza regulat cu instrumente de fabricatie digitala - CNC, imprimare 3D, asamblare robotica.",fr:"Les etudiants travaillent regulierement avec des outils de fabrication numerique - fraisage CNC, impression 3D, assemblage robotique.",cat:{en:"Digital fabrication",ro:"Fabricatie digitala",fr:"Fabrication numerique"}},
+ {id:"d5",s:"D",c:"blue",en:"Climate-responsive performance simulation (energy modelling, thermal analysis, daylighting) is a routine part of the design process in my program.",ro:"Simularea performantei climatice (modelare energetica, analiza termica, iluminat natural) este parte obisnuita a procesului de proiectare.",fr:"La simulation de performance climatique fait partie integrante du processus de conception dans mon programme.",cat:{en:"Performance simulation",ro:"Simulare de performanta",fr:"Simulation de performance"}},
+ {id:"d6",s:"D",c:"blue",en:"IoT systems, sensor networks, and building automation concepts are taught within the architecture curriculum.",ro:"Sistemele IoT, retelele de senzori si conceptele de automatizare a cladirilor sunt predate in curriculum-ul de arhitectura.",fr:"Les systemes IoT, les reseaux de capteurs et les concepts d'automatisation des batiments sont enseignes dans le cursus.",cat:{en:"IoT & building automation",ro:"IoT si automatizarea cladirilor",fr:"IoT et automatisation des batiments"}},
+ {id:"d7",s:"D",c:"blue",en:"Digital twins - virtual models that mirror real building performance in real time - are introduced as a design and management tool in my program.",ro:"Gemenii digitali sunt introdusi ca instrument de proiectare si management in programul meu.",fr:"Les jumeaux numeriques sont presentes comme outil de conception et de gestion dans mon programme.",cat:{en:"Digital twins",ro:"Gemeni digitali",fr:"Jumeaux numeriques"}},
+ {id:"d8",s:"D",c:"blue",en:"My program prepares students to critically evaluate the outputs of AI-generated design tools, not just to use them uncritically.",ro:"Programul meu ii pregateste pe studenti sa evalueze critic rezultatele instrumentelor de design generate de IA.",fr:"Mon programme prepare les etudiants a evaluer de maniere critique les productions des outils de conception generes par IA.",cat:{en:"AI critical literacy",ro:"Alfabetizare critica in IA",fr:"Litteratie critique en IA"}},
+ {id:"e1",s:"E",c:"teal",en:"Architecture schools have a responsibility to address the social consequences of smart city technologies (the digital divide, spatial inequality, surveillance).",ro:"Scolile de arhitectura au responsabilitatea de a aborda consecintele sociale ale tehnologiilor pentru orase inteligente.",fr:"Les ecoles d'architecture ont la responsabilite d'aborder les consequences sociales des technologies des villes intelligentes.",cat:{en:"Social responsibility",ro:"Responsabilitate sociala",fr:"Responsabilite sociale"}},
+ {id:"e2",s:"E",c:"teal",en:"Architectural design can meaningfully contribute to reducing urban greenhouse gas emissions when architects are properly educated about net-zero strategies.",ro:"Designul arhitectural poate contribui semnificativ la reducerea emisiilor de gaze cu efect de sera cand arhitectii sunt educati corespunzator.",fr:"La conception architecturale peut contribuer significativement a la reduction des emissions de gaz a effet de serre urbaines.",cat:{en:"Environmental impact",ro:"Impact de mediu",fr:"Impact environnemental"}},
+ {id:"e3",s:"E",c:"teal",en:"Cultural and contextual sensitivity should be as important as technological proficiency in smart architecture education - a single global model is insufficient.",ro:"Sensibilitatea culturala si contextuala ar trebui sa fie la fel de importanta ca si competenta tehnologica - un singur model global este insuficient.",fr:"La sensibilite culturelle devrait etre aussi importante que la maitrise technologique - un modele mondial unique est insuffisant.",cat:{en:"Contextual diversity",ro:"Diversitate contextuala",fr:"Diversite contextuelle"}},
+ {id:"e4",s:"E",c:"teal",en:"Architects should take on a stewardship role that continues after a building is completed - monitoring its performance and adapting it over time.",ro:"Arhitectii ar trebui sa preia un rol de administrare care continua dupa finalizarea cladirii - monitorizandu-i performanta.",fr:"Les architectes devraient assumer un role de gestionnaire qui se poursuit apres l'achevement d'un batiment.",cat:{en:"Post-occupancy stewardship",ro:"Administrare post-ocupare",fr:"Gestion post-occupation"}},
+ {id:"e5",s:"E",c:"teal",en:"Community co-design and citizen engagement are skills that should be systematically taught in architecture programs alongside technical competencies.",ro:"Co-designul comunitar si implicarea cetatenilor sunt competente care ar trebui predate sistematic in programele de arhitectura.",fr:"La co-conception communautaire et l'engagement citoyen devraient etre systematiquement enseignes dans les programmes d'architecture.",cat:{en:"Community engagement",ro:"Implicarea comunitatii",fr:"Engagement communautaire"}},
+ {id:"f1",s:"F",c:"green",en:"There is a genuine need for a dedicated postgraduate specialisation in Smart Architecture - existing programs do not adequately fill this gap.",ro:"Exista o nevoie reala de o specializare postuniversitara dedicata in Arhitectura Inteligenta - programele existente nu acopera acest decalaj.",fr:"Il existe un besoin reel d'une specialisation de troisieme cycle dediee a l'Architecture Intelligente.",cat:{en:"Specialisation need",ro:"Necesitatea specializarii",fr:"Besoin de specialisation"}},
+ {id:"f2",s:"F",c:"green",en:"A two-year postgraduate Smart Architecture program (60-72 ECTS) combining IoT, AI, parametric design, sustainability, and urban data would be valuable to the profession.",ro:"Un program postuniversitar de doi ani in Arhitectura Inteligenta (60-72 ECTS) care combina IoT, IA, design parametric si sustenabilitate ar fi valoros.",fr:"Un programme de master de deux ans en Architecture Intelligente (60-72 ECTS) combinant IoT, IA, conception parametrique et durabilite serait precieux.",cat:{en:"Curriculum design validity",ro:"Validitatea designului curricular",fr:"Validite du programme"}},
+ {id:"f3",s:"F",c:"green",en:"I would consider enrolling in (or recommending) a Smart Architecture postgraduate programme if one were offered at a recognised institution.",ro:"As lua in considerare inscrierea (sau recomandarea) unui program postuniversitar in Arhitectura Inteligenta la o institutie recunoscuta.",fr:"J'envisagerais de m'inscrire (ou de recommander) un programme de master en Architecture Intelligente propose par un etablissement reconnu.",cat:{en:"Enrolment intent",ro:"Intentia de inscriere",fr:"Intention d'inscription"}},
+ {id:"f4",s:"F",c:"green",en:"Architecture programs that integrate learning through making - hands-on prototyping with smart materials and systems - produce better-prepared graduates.",ro:"Programele de arhitectura care integreaza invatarea prin creatie - prototipare practica cu materiale si sisteme inteligente - produc absolventi mai bine pregatiti.",fr:"Les programmes d'architecture qui integrent l'apprentissage par la pratique avec des materiaux intelligents forment des diplomes mieux prepares.",cat:{en:"Learning through making (SECI)",ro:"Invatare prin creatie (SECI)",fr:"Apprendre en faisant (SECI)"}},
+ {id:"f5",s:"F",c:"green",en:"The concept of intelligentia - intelligence as a fourth architectural virtue alongside firmness, function, and beauty - reflects a meaningful shift in the discipline.",ro:"Conceptul de intelligentia - inteligenta ca a patra virtute arhitecturala alaturi de fermitate, functie si frumusete - reflecta o schimbare semnificativa.",fr:"Le concept d'intelligentia - l'intelligence comme quatrieme vertu architecturale aux cotes de la solidite, de la fonction et de la beaute - reflete une evolution significative.",cat:{en:"Intelligentia concept",ro:"Conceptul de intelligentia",fr:"Concept d'intelligentia"}}
+];
+
+var CC={purple:{bg:"var(--pu-bg)",tx:"var(--pu-tx)"},amber:{bg:"var(--am-bg)",tx:"var(--am-tx)"},blue:{bg:"var(--bl-bg)",tx:"var(--bl-tx)"},teal:{bg:"var(--tl-bg)",tx:"var(--tl-tx)"},green:{bg:"var(--gn-bg)",tx:"var(--gn-tx)"}};
+
+function $(i){return document.getElementById(i)}
+function tx(i,v){var e=$(i);if(e)e.textContent=v}
+function ht(i,v){var e=$(i);if(e)e.innerHTML=v}
+function bc(a){return a>=4?"var(--green)":a>=3?"var(--blue)":a>=2?"var(--amber)":"var(--red)"}
+
+function setL(l,btn){
+  L=l;
+  document.querySelectorAll(".lb").forEach(function(b){b.classList.remove("on")});
+  btn.classList.add("on");
+  apT();bldAll();
+}
+
+function apT(){
+  var t=T[L];
+  ht("u0",t.u[0]);ht("u1",t.u[1]);ht("u2",t.u[2]);ht("u3",t.u[3]);
+  tx("u4",t.u[4]);ht("u5",t.u[5]);ht("u6",t.u[6]);tx("u7",t.u[7]);tx("u8",t.u[8]);
+  ["B","C","D","E","F"].forEach(function(s,i){tx("t"+s,t.sT[i]);tx("i"+s,t.sI[i])});
+  tx("uG",t.g);tx("oq1t",t.oq[0]);tx("oq2t",t.oq[1]);tx("oq3t",t.oq[2]);
+  tx("subBtn",t.sub);tx("uAdmin",t.adm);tx("okT",t.okT);tx("okM",t.okM);tx("okB",t.okB);
+  rebS("role",t.rD,t.roles);rebS("region",t.rgD,t.regions);rebS("years",t.yD,t.years);
+}
+
+function rebS(id,def,opts){
+  var e=$(id);if(!e)return;
+  e.innerHTML="<option value=''>"+def+"</option>"+opts.map(function(o){return"<option value='"+o+"'>"+o+"</option>"}).join("");
+}
+
+function bldAll(){["B","C","D","E","F"].forEach(function(s){bldSec(s)})}
+
+function bldSec(sec){
+  var el=$("s"+sec);if(!el)return;
+  var qs=QS.filter(function(q){return q.s===sec}),t=T[L];
+  el.innerHTML=qs.map(function(q,i){
+    var col=CC[q.c]||CC.blue,cur=ANS[q.id]||0;
+    var sep=i<qs.length-1?' style="padding-bottom:1.25rem;border-bottom:1px solid var(--bd)"':"";
+    var btns=[1,2,3,4,5].map(function(v){
+      return '<button class="lb2'+(cur===v?' on':'')+'" id="lb'+q.id+v+'" data-qid="'+q.id+'" data-val="'+v+'" onclick="setA(this.dataset.qid,parseInt(this.dataset.val))">'+v+'</button>';
+    }).join("");
+    return '<div class="qb"'+sep+'>'
+      +'<div class="qn">'+(i+1)+" "+t.of+" "+qs.length+"</div>"
+      +'<div class="qt">'+q[L]+"</div>"
+      +'<span class="qc" style="background:'+col.bg+';color:'+col.tx+'">'+q.cat[L]+"</span>"
+      +'<div class="lr">'+btns+"</div>"
+      +'<div class="sl"><span class="slt">'+t.sl+"</span><span class='slt'>"+t.sr+"</span></div>"
+      +"</div>";
+  }).join("");
+}
+
+function setA(id,v){
+  ANS[id]=v;
+  [1,2,3,4,5].forEach(function(n){var b=$("lb"+id+n);if(b)b.className="lb2"+(n===v?" on":"")});
+  upd();
+}
+
+function upd(){
+  var pd=($("role").value&&$("region").value)?1:0;
+  var pct=((pd*.1)+(Object.keys(ANS).length/QS.length*.85)+(($("oq1").value?.05:0)))*100;
+  $("pf").style.width=Math.min(pct,95)+"%";
+}
+
+async function doSub(){
+  var role=$("role").value,region=$("region").value;
+  if(!role||!region){alert(L==="ro"?"Selectati rolul si regiunea.":L==="fr"?"Selectionnez votre role et region.":"Please select your role and region.");return}
+  var minQ=Math.ceil(QS.length*.6);
+  if(Object.keys(ANS).length<minQ){alert(L==="ro"?"Raspundeti la cel putin "+minQ+" intrebari.":L==="fr"?"Repondez a au moins "+minQ+" questions.":"Please answer at least "+minQ+" questions.");return}
+  var btn=$("subBtn");if(btn){btn.textContent=L==="ro"?"Se trimite...":L==="fr"?"Envoi...":"Submitting...";btn.disabled=true}
+  var entry={lang:L,role:role,region:region,years:$("years").value||"",institution:$("inst").value||"",answers:Object.assign({},ANS),openQ1:$("oq1").value||"",openQ2:$("oq2").value||"",openQ3:$("oq3").value||"",timestamp:new Date().toISOString(),id:Date.now()};
+  RS.push(entry);localStorage.setItem("sav3",JSON.stringify(RS));
+  var note=$("note");
+  if(SU){
+    try{
+      await fetch(SU,{method:"POST",mode:"no-cors",headers:{"Content-Type":"application/json"},body:JSON.stringify(entry)});
+      if(note){note.textContent=L==="ro"?"Trimis cu succes!":L==="fr"?"Envoye avec succes!":"Sent to Google Sheets!";note.style.color="var(--gn-tx)"}
+    }catch(e){if(note){note.textContent="Saved locally.";note.style.color="var(--tx3)"}}
+  } else {if(note){note.textContent="Saved locally.";note.style.color="var(--tx3)"}}
+  if(btn){btn.textContent=T[L].sub;btn.disabled=false}
+  $("sv").style.display="none";$("okS").style.display="block";$("pf").style.width="100%";
+}
+
+function reset(){
+  ANS={};bldAll();
+  ["role","region","years","inst","oq1","oq2","oq3"].forEach(function(id){var e=$(id);if(e)e.value=""});
+  $("pf").style.width="0%";$("okS").style.display="none";$("sv").style.display="block";
+}
+
+async function loadS(){
+  if(!SU)return false;
+  try{var r=await fetch(SU+"?action=read");if(!r.ok)return false;var d=await r.json();if(Array.isArray(d)&&d.length){RS=d;localStorage.setItem("sav3",JSON.stringify(RS));return true}return false}
+  catch(e){return false}
+}
+
+async function showR(){
+  $("sv").style.display="none";$("okS").style.display="none";$("rv").style.display="block";
+  var s=$("ls");
+  if(SU){s.textContent="Loading from Google Sheets...";s.style.color="var(--am-tx)";
+    var ok=await loadS();
+    s.textContent=ok?"Live data loaded - "+RS.length+" responses":"Local data - "+RS.length+" responses";
+    s.style.color=ok?"var(--gn-tx)":"var(--tx3)";
+  }else{s.textContent=RS.length+" local responses.";s.style.color="var(--tx3)"}
+  rOv();rBs();rRs();rEx();
+}
+
+function hideR(){$("rv").style.display="none";$("sv").style.display="block"}
+
+function sw(id,btn){
+  document.querySelectorAll(".pnl").forEach(function(p){p.classList.remove("on")});
+  document.querySelectorAll(".tab").forEach(function(t){t.classList.remove("on")});
+  $(id).classList.add("on");btn.classList.add("on");
+}
+
+function avg(id){var v=RS.map(function(r){return r.answers[id]}).filter(Boolean);return v.length?v.reduce(function(a,b){return a+b},0)/v.length:null}
+function sAvg(sec){var qs=QS.filter(function(q){return q.s===sec}),avs=qs.map(function(q){return avg(q.id)}).filter(Boolean);return avs.length?avs.reduce(function(a,b){return a+b},0)/avs.length:null}
+
+function rOv(){
+  var n=RS.length;$("rN").textContent=n;if(!n)return;
+  var all=QS.map(function(q){return avg(q.id)}).filter(Boolean);
+  $("rA").textContent=(all.reduce(function(a,b){return a+b},0)/all.length).toFixed(1)+"/5";
+  var w=QS.map(function(q){return{c:q.cat.en,a:avg(q.id)}}).filter(function(x){return x.a}).sort(function(a,b){return a.a-b.a})[0];
+  $("rW").textContent=w?w.c:"--";
+  $("allB").innerHTML=QS.map(function(q){var a=avg(q.id);if(!a)return"";var col=CC[q.c]||CC.blue;
+    return'<div class="br"><div class="bh"><span class="bc">'+q.cat.en+' <span style="font-size:10px;padding:1px 6px;border-radius:8px;background:'+col.bg+';color:'+col.tx+'">'+q.s+"</span></span><span class='ba'>"+a.toFixed(1)+"</span></div><div class='bw'><div class='bf' style='width:"+a/5*100+"%;background:"+bc(a)+"'></div></div></div>";}).join("");
+  var roles={},regs={},lngs={};
+  RS.forEach(function(r){roles[r.role]=(roles[r.role]||0)+1;regs[r.region]=(regs[r.region]||0)+1;lngs[r.lang||"en"]=(lngs[r.lang||"en"]||0)+1});
+  $("bkd").innerHTML=
+    "<div style='margin-bottom:.5rem'><strong>By role:</strong> "+Object.entries(roles).map(function(e){return e[0]+" (n="+e[1]+")"}).join(" &middot; ")+"</div>"+
+    "<div style='margin-bottom:.5rem'><strong>By region:</strong> "+Object.entries(regs).map(function(e){return e[0]+" (n="+e[1]+")"}).join(" &middot; ")+"</div>"+
+    "<div><strong>By language:</strong> "+Object.entries(lngs).map(function(e){return(e[0]==="en"?"English":e[0]==="ro"?"Romanian":"French")+" (n="+e[1]+")"}).join(" &middot; ")+"</div>";
+}
+
+function rBs(){
+  $("secB").innerHTML=["B","C","D","E","F"].map(function(s){var a=sAvg(s);if(!a)return"";
+    return'<div class="br" style="margin-bottom:1rem"><div class="bh"><span class="bc">'+T.en.sL[s]+"</span><span class='ba'>"+a.toFixed(1)+"/5</span></div><div class='bw' style='height:12px'><div class='bf' style='width:"+a/5*100+"%;background:"+bc(a)+"'></div></div></div>";}).join("");
+}
+
+function rRs(){
+  var el=$("rL");$("rC").textContent=RS.length;
+  if(!RS.length){el.innerHTML="<p style='color:var(--tx3);font-size:13px;font-style:italic'>No responses yet.</p>";return}
+  el.innerHTML=RS.slice().reverse().map(function(r){
+    var vs=Object.values(r.answers).filter(Boolean);
+    var m=vs.length?(vs.reduce(function(a,b){return a+b},0)/vs.length).toFixed(1):"--";
+    var op=[r.openQ1,r.openQ2,r.openQ3].filter(function(s){return s&&s.length>5});
+    var lb=r.lang==="ro"?"Romanian":r.lang==="fr"?"French":"English";
+    return'<div class="ri"><div class="rm">'+r.role+" &middot; "+r.region+" &middot; "+lb+" &middot; Avg "+m+"/5 &middot; "+new Date(r.timestamp).toLocaleDateString()+"</div>"+(op.length?'<div class="rq">"'+op[0]+'"</div>':"")+'<div class="rp">'+QS.filter(function(q){return r.answers[q.id]}).slice(0,8).map(function(q){return'<span class="pl">'+q.cat.en+": "+r.answers[q.id]+"</span>"}).join("")+"</div></div>";
+  }).join("");
+}
+
+function rEx(){
+  if(!RS.length){$("expB").textContent="No responses yet.";return;}
+  var hdr=["Role","Region","Language","Years","Institution"].concat(QS.map(function(q){return q.cat.en.replace(/,/g," ");})).concat(["Overall avg","Open Q1","Open Q2","Open Q3","Timestamp"]);
+  var lines=[hdr.join(",")];
+  RS.forEach(function(r){
+    var vs=QS.map(function(q){return r.answers[q.id]||"";});
+    var ns=vs.filter(Boolean).map(Number);
+    var a=ns.length?(ns.reduce(function(a,b){return a+b;},0)/ns.length).toFixed(2):"";
+    function q(s){return '"'+(String(s||"")).replace(/"/g,"'")+'"';}
+    var row=[q(r.role),q(r.region),q(r.lang||"en"),q(r.years||""),q(r.institution||"")].concat(vs).concat([a,q(r.openQ1),q(r.openQ2),q(r.openQ3),q(r.timestamp)]);
+    lines.push(row.join(","));
+  });
+  $("expB").textContent=lines.join("\n");
+}
+
+function cpC(){navigator.clipboard.writeText($("expB").textContent).then(function(){alert("Copied!")}).catch(function(){alert("Select text and copy manually.")})}
+function clrD(){if(confirm("Delete all "+RS.length+" responses?")){RS=[];localStorage.setItem("sav3","[]");rOv();rBs();rRs();rEx();alert("Cleared.")}}
+
+apT();
+bldAll();
+</script>
+</body>
+</html>
